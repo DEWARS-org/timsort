@@ -18,7 +18,7 @@ const DEFAULT_TMP_STORAGE_LENGTH = 256;
  */
 const POWERS_OF_TEN = [1e0, 1e1, 1e2, 1e3, 1e4, 1e5, 1e6, 1e7, 1e8, 1e9];
 
-type CompareFunction = (a: number, b: number) => number;
+type CompareFunction<T> = (a: T, b: T) => number;
 
 /**
  * Estimate the logarithm base 10 of a small integer.
@@ -57,7 +57,10 @@ const log10 = (x: number): number => {
  * @param b - Second element to compare.
  * @return A positive number if a.toString() > b.toString(), a negative number if .toString() < b.toString(), 0 otherwise.
  */
-const alphabeticalCompare = (a: number, b: number): number => {
+const alphabeticalCompare: CompareFunction<number> = (
+  a: number,
+  b: number,
+): number => {
   if (a === b) {
     return 0;
   }
@@ -139,11 +142,11 @@ const minRunLength = (n: number): number => {
  * @param compare - Item comparison function.
  * @return The length of the run.
  */
-const makeAscendingRun = (
-  array: number[],
+const makeAscendingRun = <T>(
+  array: T[],
   lo: number,
   hi: number,
-  compare: CompareFunction,
+  compare: CompareFunction<T>,
 ): number => {
   let runHi = lo + 1;
 
@@ -175,7 +178,7 @@ const makeAscendingRun = (
  * @param lo - First element in the range (inclusive).
  * @param hi - Last element in the range.
  */
-const reverseRun = (array: number[], lo: number, hi: number): void => {
+const reverseRun = <T>(array: T[], lo: number, hi: number): void => {
   hi--;
 
   while (lo < hi) {
@@ -195,12 +198,12 @@ const reverseRun = (array: number[], lo: number, hi: number): void => {
  * @param start - First element possibly out of order.
  * @param compare - Item comparison function.
  */
-const binaryInsertionSort = (
-  array: number[],
+const binaryInsertionSort = <T>(
+  array: T[],
   lo: number,
   hi: number,
   start: number,
-  compare: CompareFunction,
+  compare: CompareFunction<T>,
 ): void => {
   if (start === lo) {
     start++;
@@ -268,13 +271,13 @@ const binaryInsertionSort = (
  * @param compare - Item comparison function.
  * @return The index where to insert value.
  */
-const gallopLeft = (
-  value: number,
-  array: number[],
+const gallopLeft = <T>(
+  value: T,
+  array: T[],
   start: number,
   length: number,
   hint: number,
-  compare: CompareFunction,
+  compare: CompareFunction<T>,
 ): number => {
   let lastOffset = 0;
   let maxOffset = 0;
@@ -357,13 +360,13 @@ const gallopLeft = (
  * @param compare - Item comparison function.
  * @return The index where to insert value.
  */
-const gallopRight = (
-  value: number,
-  array: number[],
+const gallopRight = <T>(
+  value: T,
+  array: T[],
   start: number,
   length: number,
   hint: number,
-  compare: CompareFunction,
+  compare: CompareFunction<T>,
 ): number => {
   let lastOffset = 0;
   let maxOffset = 0;
@@ -437,9 +440,9 @@ const gallopRight = (
   return offset;
 };
 
-class TimSort {
-  array: number[] = [];
-  compare: CompareFunction;
+class TimSort<T> {
+  array: T[] = [];
+  compare: CompareFunction<T>;
   minGallop = DEFAULT_MIN_GALLOPING;
   length = 0;
   tmpStorageLength = DEFAULT_TMP_STORAGE_LENGTH;
@@ -447,9 +450,9 @@ class TimSort {
   runStart: number[] = [];
   runLength: number[] = [];
   stackSize = 0;
-  tmp: number[] = [];
+  tmp: T[] = [];
 
-  constructor(array: number[], compare: CompareFunction) {
+  constructor(array: T[], compare: CompareFunction<T>) {
     this.array = array;
     this.compare = compare;
 
@@ -948,12 +951,16 @@ class TimSort {
  * @param lo - First element in the range (inclusive).
  * @param hi - Last element in the range.
  */
-export const sort = (
-  array: number[],
-  compare: CompareFunction = alphabeticalCompare,
+export const sort = <T = number>(
+  array: T[],
+  compare?: CompareFunction<T>,
   lo?: number,
   hi?: number,
 ): void => {
+  if (compare === undefined) {
+    compare = alphabeticalCompare as CompareFunction<T>;
+  }
+
   if (lo === undefined) {
     lo = 0;
   }

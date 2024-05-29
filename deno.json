@@ -10,6 +10,6 @@
   },
   "tasks": {
     "test": "deno test tests/*",
-    "benchmark": "deno run --allow-hrtime benchmark/benchmarks.ts"
+    "benchmark": "deno run --allow-hrtime benchmark/index.ts"
   }
 }
