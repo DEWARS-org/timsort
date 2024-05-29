@@ -15,8 +15,14 @@
       "tests"
     ]
   },
-  "tasks": {
-    "test": "deno test tests/*",
-    "benchmark": "deno run --allow-hrtime benchmark/index.ts"
+  "test": {
+    "include": [
+      "tests/*"
+    ]
+  },
+  "bench": {
+    "include": [
+      "benchmark/index.ts"
+    ]
   }
 }
