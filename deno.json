@@ -1,6 +1,6 @@
 {
   "name": "@dewars/timsort",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "TimSort: Fast Sorting",
   "exports": {
     ".": "./mod.ts"
