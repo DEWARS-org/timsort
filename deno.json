@@ -1,0 +1,15 @@
+{
+  "name": "@dewars/timsort",
+  "version": "1.0.0",
+  "description": "TimSort: Fast Sorting",
+  "exports": {
+    ".": "./mod.ts"
+  },
+  "imports": {
+    "@std/expect": "jsr:@std/expect@^0.224.2"
+  },
+  "tasks": {
+    "test": "deno test tests/*",
+    "benchmark": "deno run --allow-hrtime benchmark/benchmarks.ts"
+  }
+}

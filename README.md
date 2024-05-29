@@ -3,12 +3,13 @@
 [![Build Status](https://travis-ci.org/mziccard/node-timsort.svg?branch=master)](https://travis-ci.org/mziccard/node-timsort)
 [![npm version](https://badge.fury.io/js/timsort.svg)](https://www.npmjs.com/package/timsort)
 
-An adaptive and **stable** sort algorithm based on merging that requires fewer than nlog(n) 
-comparisons when run on partially sorted arrays. The algorithm uses O(n) memory and still runs in O(nlogn) 
-(worst case) on random arrays.  
-This implementation is based on the original 
-[TimSort](http://svn.python.org/projects/python/trunk/Objects/listsort.txt) developed 
-by Tim Peters for Python's lists (code [here](http://svn.python.org/projects/python/trunk/Objects/listobject.c)).
+An adaptive and **stable** sort algorithm based on merging that requires fewer
+than nlog(n) comparisons when run on partially sorted arrays. The algorithm uses
+O(n) memory and still runs in O(nlogn) (worst case) on random arrays.\
+This implementation is based on the original
+[TimSort](http://svn.python.org/projects/python/trunk/Objects/listsort.txt)
+developed by Tim Peters for Python's lists (code
+[here](http://svn.python.org/projects/python/trunk/Objects/listobject.c)).
 TimSort has been also adopted in Java starting from version 7.
 
 ## Acknowledgments
@@ -19,23 +20,30 @@ TimSort has been also adopted in Java starting from version 7.
 ## Usage
 
 Install the package with npm:
+
 ```
 npm install --save timsort
 ```
+
 And use it:
+
 ```javascript
 var TimSort = require('timsort');
 
 var arr = [...];
 TimSort.sort(arr);
 ```
+
 You can also install it with bower:
+
 ```
 bower install timsort
 ```
-As `array.sort()` by default the `timsort` module sorts according to 
-lexicographical order. 
-You can also provide your own compare function (to sort any object) as:
+
+As `array.sort()` by default the `timsort` module sorts according to
+lexicographical order. You can also provide your own compare function (to sort
+any object) as:
+
 ```javascript
 function numberCompare(a,b) {
     return a-b;
@@ -45,7 +53,9 @@ var arr = [...];
 var TimSort = require('timsort');
 TimSort.sort(arr, numberCompare);
 ```
+
 You can also sort only a specific subrange of the array:
+
 ```javascript
 TimSort.sort(arr, 5, 10);
 TimSort.sort(arr, numberCompare, 5, 10);
@@ -53,23 +63,24 @@ TimSort.sort(arr, numberCompare, 5, 10);
 
 ## Performance
 
-A benchmark is provided in `benchmark/index.js`. It compares the `timsort` module against 
-the default `array.sort` method in the numerical sorting of different types of integer array 
-(as described [here](http://svn.python.org/projects/python/trunk/Objects/listsort.txt)):
+A benchmark is provided in `benchmark/index.js`. It compares the `timsort`
+module against the default `array.sort` method in the numerical sorting of
+different types of integer array (as described
+[here](http://svn.python.org/projects/python/trunk/Objects/listsort.txt)):
 
--  *Random array*
--  *Descending array*
--  *Ascending array*
--  *Ascending array with 3 random exchanges*
--  *Ascending array with 10 random numbers in the end*
--  *Array of equal elements*
--  *Random Array with many duplicates*
--  *Random Array with some duplicates*
+- _Random array_
+- _Descending array_
+- _Ascending array_
+- _Ascending array with 3 random exchanges_
+- _Ascending array with 10 random numbers in the end_
+- _Array of equal elements_
+- _Random Array with many duplicates_
+- _Random Array with some duplicates_
 
-For any of the array types the sorting is repeated several times and for 
-different array sizes, average execution time is then printed. 
-I run the benchmark on Node v6.3.1 (both pre-compiled and compiled from source,
-results are very similar), obtaining the following values:
+For any of the array types the sorting is repeated several times and for
+different array sizes, average execution time is then printed. I run the
+benchmark on Node v6.3.1 (both pre-compiled and compiled from source, results
+are very similar), obtaining the following values:
 
 <table>
   <tr>
@@ -183,30 +194,37 @@ results are very similar), obtaining the following values:
 </tbody>
 </table>
 
-`TimSort.sort` **is faster** than `array.sort` on almost of the tested array types.
-In general, the more ordered the array is the better `TimSort.sort` performs with respect to `array.sort` (up to 243 times faster on already sorted arrays).
-And also, in general, the bigger the array the more we benefit from using
-the `timsort` module.  
+`TimSort.sort` **is faster** than `array.sort` on almost of the tested array
+types. In general, the more ordered the array is the better `TimSort.sort`
+performs with respect to `array.sort` (up to 243 times faster on already sorted
+arrays). And also, in general, the bigger the array the more we benefit from
+using the `timsort` module.
 
-These data strongly depend on Node.js version and the machine on which the benchmark is run. I strongly encourage you to run the benchmark on your own setup with:
+These data strongly depend on Node.js version and the machine on which the
+benchmark is run. I strongly encourage you to run the benchmark on your own
+setup with:
+
 ```
 npm run benchmark
 ```
+
 Please also notice that:
 
--  This benchmark is far from exhaustive. Several cases are not considered 
-and the results must be taken as partial
--  *inlining* is surely playing an active role in `timsort` module's good performance
--  A more accurate comparison of the algorithms would require implementing `array.sort` in pure javascript
-and counting element comparisons
+- This benchmark is far from exhaustive. Several cases are not considered and
+  the results must be taken as partial
+- _inlining_ is surely playing an active role in `timsort` module's good
+  performance
+- A more accurate comparison of the algorithms would require implementing
+  `array.sort` in pure javascript and counting element comparisons
 
 ## Stability
 
-TimSort is *stable* which means that equal items maintain their relative order 
-after sorting. Stability is a desirable property for a sorting algorithm. 
+TimSort is _stable_ which means that equal items maintain their relative order
+after sorting. Stability is a desirable property for a sorting algorithm.
 Consider the following array of items with an height and a weight.
+
 ```javascript
-[ 
+[
   { height: 100, weight: 80 },
   { height: 90, weight: 90 },
   { height: 70, weight: 95 },
@@ -218,34 +236,38 @@ Consider the following array of items with an height and a weight.
   { height: 70, weight: 130 },
   { height: 100, weight: 135 },
   { height: 75, weight: 140 },
-  { height: 70, weight: 140 } 
-]
-```
-Items are already sorted by `weight`. Sorting the array 
-according to the item's `height` with the `timsort` module 
-results in the following array:
-```javascript
-[ 
-  { height: 70, weight: 95 },
-  { height: 70, weight: 125 },
-  { height: 70, weight: 130 },
   { height: 70, weight: 140 },
-  { height: 75, weight: 140 },
-  { height: 80, weight: 110 },
-  { height: 90, weight: 90 },
-  { height: 100, weight: 80 },
-  { height: 100, weight: 100 },
-  { height: 100, weight: 120 },
-  { height: 100, weight: 135 },
-  { height: 110, weight: 115 } 
-]
+];
 ```
-Items with the same  `height` are still sorted by `weight` which means they preserved their relative order.
 
-`array.sort`, instead, is not guarranteed to be *stable*. In Node v0.12.7 
-sorting the previous array by `height` with `array.sort` results in:
+Items are already sorted by `weight`. Sorting the array according to the item's
+`height` with the `timsort` module results in the following array:
+
 ```javascript
-[ 
+[
+  { height: 70, weight: 95 },
+  { height: 70, weight: 125 },
+  { height: 70, weight: 130 },
+  { height: 70, weight: 140 },
+  { height: 75, weight: 140 },
+  { height: 80, weight: 110 },
+  { height: 90, weight: 90 },
+  { height: 100, weight: 80 },
+  { height: 100, weight: 100 },
+  { height: 100, weight: 120 },
+  { height: 100, weight: 135 },
+  { height: 110, weight: 115 },
+];
+```
+
+Items with the same `height` are still sorted by `weight` which means they
+preserved their relative order.
+
+`array.sort`, instead, is not guarranteed to be _stable_. In Node v0.12.7
+sorting the previous array by `height` with `array.sort` results in:
+
+```javascript
+[
   { height: 70, weight: 140 },
   { height: 70, weight: 95 },
   { height: 70, weight: 125 },
@@ -257,8 +279,9 @@ sorting the previous array by `height` with `array.sort` results in:
   { height: 100, weight: 80 },
   { height: 100, weight: 135 },
   { height: 100, weight: 120 },
-  { height: 110, weight: 115 } 
-]
+  { height: 110, weight: 115 },
+];
 ```
-As you can see the sorting did not preserve `weight` ordering for items with the 
+
+As you can see the sorting did not preserve `weight` ordering for items with the
 same `height`.
