@@ -17,7 +17,7 @@
   },
   "test": {
     "include": [
-      "tests/*"
+      "test/*.spec.ts"
     ]
   },
   "bench": {
