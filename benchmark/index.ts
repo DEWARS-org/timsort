@@ -1,5 +1,5 @@
 import { sort } from "../mod.ts";
-import { arrayGenerator } from "../tests/arrayGenerator.ts";
+import { arrayGenerator } from "../test/arrayGenerator.ts";
 
 const lengths = [10, 100, 1000, 10000];
 
